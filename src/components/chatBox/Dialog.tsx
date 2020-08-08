@@ -18,11 +18,14 @@ interface Props {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    paper: {
-        bottom: '0 !important',
+    root: {
+        bottom: '45px !important',
         right: '0 !important',
         minHeight: 100,
-        left: 'auto !important'
+        left: 'auto !important',
+    },
+    container: {
+        alignItems: 'flex-end'
     },
     closeButton: {
         position: 'absolute',
@@ -42,7 +45,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function ChatBoxDialog({ handleClose, open }: Props) {
-    const classes = useStyles();
+    const { closeButton, ...dialogClasses } = useStyles();
     return (
         <Dialog
             open={open}
@@ -51,11 +54,13 @@ export default function ChatBoxDialog({ handleClose, open }: Props) {
             onClose={handleClose}
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
-            className={classes.paper}
+            classes={{
+                ...dialogClasses
+            }}
         >
             <DialogTitle id="alert-dialog-slide-title">
                 Title
-                <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
+                <IconButton aria-label="close" className={closeButton} onClick={handleClose}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>

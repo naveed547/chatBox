@@ -1,4 +1,5 @@
 import React from 'react';
+import Box from '@material-ui/core/Box';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import TextsmsIcon from '@material-ui/icons/Textsms';
 import IconButton from '@material-ui/core/IconButton';
@@ -22,23 +23,26 @@ const useStyles = makeStyles((theme: Theme) =>
         flexDirection: 'row-reverse',
         alignItems: 'center',
         cursor: 'pointer',
-        "& .MuiTooltip-arrow": {
-            top: '3px !important',
-        },
         "& .MuiTooltip-popper": {
-            transform: 'none !important',
-            position: 'static !important',
+            position: 'static !important'
         }
     },
+    arrow: {
+        top: '3px !important',
+    },
+    popper: {
+        transform: 'none !important' 
+    }
   }),
 );
 
 export default function ChatBoxToolTip({ handleOpen }: Props) {
-    const classes = useStyles();
+    const { wrapper, iconButton, ...tooltipClasses } = useStyles();
     return (
-        <div
-            className={classes.wrapper}
+        <Box
+            className={wrapper}
             onClick={handleOpen}
+            component="div"
         >
             <Tooltip
                 arrow
@@ -48,15 +52,16 @@ export default function ChatBoxToolTip({ handleOpen }: Props) {
                 PopperProps={{
                     disablePortal: true,
                 }}
+                classes={tooltipClasses}
             >
                 <IconButton
                     aria-label="How may I help you?"
                     color="primary"
-                    className={classes.iconButton}
+                    className={iconButton}
                 >
                     <TextsmsIcon />
                 </IconButton>
             </Tooltip>
-        </div>
+        </Box>
     )
 }
