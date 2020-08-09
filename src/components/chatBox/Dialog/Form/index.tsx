@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, FormEvent } from 'react';
 import { details as DetailsProp } from '../index';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 interface Props {
     setStep: Dispatch<SetStateAction<number>>,
@@ -42,8 +43,20 @@ const formLabel: formLabel = {
     }
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    textFieldMargin: {
+        margin: theme.spacing(1.25, 0),
+    },
+    buttonMargin: {
+        marginTop: theme.spacing(1.25)
+    }
+  }),
+);
+
 export default function Form({ setStep, setUserDetails, details: { formFilled, ...exactDetails } }: Props) {
     const detailsMap = Object.entries(exactDetails);
+    const classes = useStyles();
     const onChange = (event: FormEvent<EventTarget>) => {
         const element = event.target as HTMLInputElement
         setUserDetails({
@@ -60,11 +73,11 @@ export default function Form({ setStep, setUserDetails, details: { formFilled, .
                     variant="outlined"
                     value={formValue}
                     onChange={onChange}
-                    style={{margin: '10px 0'}}
+                    className={classes.textFieldMargin}
                 />
             ))}
             <Button
-                style={{ marginTop: 10 }}
+                className={classes.buttonMargin}
                 variant="contained"
                 color="primary"
                 name="phone"

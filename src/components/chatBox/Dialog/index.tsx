@@ -23,6 +23,7 @@ export interface details {
     phone: string,
     formFilled?: boolean
 }
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -55,19 +56,25 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function ChatBoxDialog({ handleClose, open }: Props) {
-    const { closeButton, ...dialogClasses } = useStyles();
-    const [step, setStep] = useState<number>(1);
-    const [userDetails, setUserDetails] = useState<details>({
+    const emptyDetails = {
         name: '',
         email: '',
         phone: '',
-    });
+    };
+    const { closeButton, ...dialogClasses } = useStyles();
+    const [step, setStep] = useState<number>(1);
+    const [userDetails, setUserDetails] = useState<details>(emptyDetails);
+    const clearAndClose = () => {
+        setStep(1);
+        setUserDetails(emptyDetails);
+        handleClose();
+    }
     return (
         <Dialog
             open={open}
             TransitionComponent={Transition}
             keepMounted
-            onClose={handleClose}
+            onClose={clearAndClose}
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
             classes={{
@@ -76,7 +83,7 @@ export default function ChatBoxDialog({ handleClose, open }: Props) {
         >
             <DialogTitle id="alert-dialog-slide-title">
                 Title
-                <IconButton aria-label="close" className={closeButton} onClick={handleClose}>
+                <IconButton aria-label="close" className={closeButton} onClick={clearAndClose}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
@@ -94,7 +101,10 @@ export default function ChatBoxDialog({ handleClose, open }: Props) {
                             details={userDetails}
                         />
                         : 
-                        <Services name={userDetails.name} />
+                        <Services
+                            name={userDetails.name}
+                            chipServices={['Service1', 'Service2', 'Service3', 'Service4', 'Service5', 'Service6', 'Service7', 'Service8', 'Service9', 'Service10']}
+                        />
                     }
                 </DialogContentText>
             </DialogContent>
