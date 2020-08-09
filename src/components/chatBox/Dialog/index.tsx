@@ -65,8 +65,8 @@ export default function ChatBoxDialog({ handleClose, open }: Props) {
     const [step, setStep] = useState<number>(1);
     const [userDetails, setUserDetails] = useState<details>(emptyDetails);
     const clearAndClose = () => {
-        setStep(1);
-        setUserDetails(emptyDetails);
+        // setStep(1);
+        // setUserDetails(emptyDetails);
         handleClose();
     }
     return (
