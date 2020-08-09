@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react';
-import ChatBoxDialog from './Dialog';
-import ChatBoxToolTip from './Tooltip';
+import ChatBoxDialog from './Dialog/';
+import ChatBoxToolTip from './Tooltip/';
 
 function ChatBox() {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
     const handleOpen = () => {
         setOpen(true);
     };

@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Slide from '@material-ui/core/Slide';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -11,11 +9,20 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
+import Form from './Form/';
+import Services from './Services/';
+import PaperHeader from './PaperHeader/';
+
 interface Props {
     handleClose(): any,
     open: boolean,
 }
-
+export interface details {
+    name: string,
+    email: string,
+    phone: string,
+    formFilled?: boolean
+}
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -26,6 +33,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container: {
         alignItems: 'flex-end'
+    },
+    paperScrollPaper: {
+        width: theme.spacing(50),
     },
     closeButton: {
         position: 'absolute',
@@ -46,6 +56,12 @@ const Transition = React.forwardRef(function Transition(
 
 export default function ChatBoxDialog({ handleClose, open }: Props) {
     const { closeButton, ...dialogClasses } = useStyles();
+    const [step, setStep] = useState<number>(1);
+    const [userDetails, setUserDetails] = useState<details>({
+        name: '',
+        email: '',
+        phone: '',
+    });
     return (
         <Dialog
             open={open}
@@ -66,17 +82,22 @@ export default function ChatBoxDialog({ handleClose, open }: Props) {
             </DialogTitle>
             <DialogContent dividers>
                 <DialogContentText id="alert-dialog-slide-description">
-                    Content
+                    <PaperHeader
+                        message={step === 1 ? 'Please fill' : 'Please Select Options'}
+                        withIcon
+                        headerMessage="Qvantee"
+                    />
+                    { step === 1 ?
+                        <Form
+                            setStep={setStep}
+                            setUserDetails={setUserDetails}
+                            details={userDetails}
+                        />
+                        : 
+                        <Services name={userDetails.name} />
+                    }
                 </DialogContentText>
             </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    Cancel
-                </Button>
-                <Button color="primary">
-                    Send
-                </Button>
-            </DialogActions>
         </Dialog>
     )
 }
